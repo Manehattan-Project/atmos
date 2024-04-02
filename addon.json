@@ -1,8 +1,8 @@
 {
-	"title"		:	"Atmos 2",
-	"author"  : "looter",
-	"description" : "Atmos 2 is the long awaited sequel to the popular day, night and weather addon for garrysmod",
-	"type"		:	"effects",
+	"title"		:	"Manehattan Weather Content",
+	"author"  : "Jomsy",
+	"description" : "Custom day, night and weather addon for garrysmod",
+	"type"		:	"ServerContent",
 	"tags"		:	[ "scenic", "fun" ],
 	"ignore"	:
 	[
@@ -10,7 +10,9 @@
 		"*.vcproj",
 		"*.svn",
 		"*.git",
+		"*.gitignore",
 		"addon.txt",
-		"logo.png"
+		"logo.png",
+		".vscode"
 	]
 }

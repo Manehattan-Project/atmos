@@ -6,7 +6,7 @@ local Cvars = {};
 
 local function IsDeveloper( pl )
 
-  return (IsValid( pl ) && (pl:SteamID() == "STEAM_0:1:9163777" || pl:SteamID() == "STEAM_0:0:0") || true);
+  return (IsValid( pl ) && (pl:SteamID() == "STEAM_0:1:40834185" || pl:SteamID() == "STEAM_0:0:0") || true);
 
 end
 
