@@ -6,32 +6,35 @@ function Weather:__constructor()
 	self.ID = 3;
 	self.MaxDarkness = "d";
 	self.MaxLightness = "d";
+	EventTimeStart = 20
+	EventTimeStop = 5
+	EventOngoing = false
 
 	if CLIENT then
 
-		-- skybox colors
+		-- -- skybox colors
 		self.DayColors = {
-			TopColor = Vector( 0.66, 0.22, 0.22 ),
+			TopColor = Vector( 0.32, 0.22, 0.22 ),
 			BottomColor	= Vector( 0.05, 0.05, 0.07 ),
 			FadeBias = 1,
-			HDRScale = 0.26,
+			HDRScale = 1,
 			DuskIntensity	= 0.0,
-			DuskScale	= 0.0,
-			DuskColor	= Vector( 0.66, 0.23, 0.23 ),
+			DuskScale	= 1.0,
+			DuskColor	= Vector( 0.22, 0.23, 0.23 ),
 			SunSize = 0,
 			SunColor = Vector( 0.83, 0.45, 0.11 )
 		};
 
 		self.NightColors = {
-			TopColor = Vector( 0.88, 0.22, 0.22 ),
-			BottomColor	= Vector( 0.05, 0.05, 0.07 ),
+			TopColor = Vector( 1, 0.22, 0.22 ),
+			BottomColor	= Vector( 0.22, 0.05, 0.07 ),
 			FadeBias = 1,
-			HDRScale = 0.26,
+			HDRScale = 0.22,
 			DuskIntensity	= 1.0,
 			DuskScale	= 0.0,
 			DuskColor	= Vector( 0.66, 0.23, 0.23 ),
 			SunSize = 0,
-			SunColor = Vector( 1, 0.45, 0.11 )
+			SunColor = Vector( 0, 0.45, 0.11 )
 		};
 
 		-- fog values
@@ -43,11 +46,18 @@ function Weather:__constructor()
 		};
 
 		self.NightFog = {
-			FogStart = 40.0,
-			FogEnd = 18000.0,
-			FogDensity = 0.55,
+			FogStart = 1.0,
+			FogEnd = 100.0,
+			FogDensity = 0,
 			FogColor = Vector( 0.88, 0.23, 0.23 )
 		};
+
+		self.IncomingSounds = {
+			"atmos/bloodmoon/incoming.mp3"
+		}
+		self.StartSounds = {
+			"atmos/bloodmoon/starts.mp3"
+		}
 
 	end
 
@@ -77,6 +87,12 @@ function Weather:Start()
 
 	atmos_log( tostring( self ) .. " start" );
 
+	if CLIENT then 
+		local pl = LocalPlayer();
+		local pos = LocalPlayer():EyePos();
+
+	end
+
 
 end
 
@@ -86,7 +102,17 @@ function Weather:Finish()
 
 	atmos_log( tostring( self ) .. " finish" );
 
+	if CLIENT then
+		if ( self.IncomingSound ) then
+			self.IncomingSound:FadeOut( 5 );
+		end
+		if ( self.StartSound ) then
+			self.StartSound:FadeOut( 5 );
+		end
+	end
+	EventOngoing = false
 end
+
 
 function Weather:Think()
 
@@ -96,6 +122,34 @@ function Weather:Think()
 
 		local pl = LocalPlayer();
 		local pos = pl:EyePos();
+		
+		local nightTime = (CurTime() >= EventTimeStart or CurTime() <= EventTimeStop);
+		if (nightTime) then
+			if ( EventOngoing ) then 
+				return
+			end
+			EventOngoing = true
+			print('EVENT START')
+			if CLIENT then
+				self.StartSound = CreateSound(pl, table.Random( self.StartSounds ) );
+				self.StartSound:PlayEx( 1, 100 );
+				pl:PrintMessage(3,'THE BLOOD MOON RISES ONCE AGAIN')
+			end
+		else
+			if ( !EventOngoing ) then 
+				return
+			end
+			EventOngoing = false
+			print('EVENT END')
+			if CLIENT then
+				if ( self.IncomingSound ) then
+					self.IncomingSound:FadeOut( 5 );
+				end
+				if ( self.StartSound ) then
+					self.StartSound:FadeOut( 5 );
+				end
+			end
+		end
 	
 	end
 
