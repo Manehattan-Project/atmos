@@ -81,6 +81,9 @@ function AtmosClass:WeatherCheck()
 
 		local weather = table.Random( self.Weathers );
 
+		atmos_log( "Checking if weather is enabled.. it is currently.." .. cvars.Bool("weather"));
+		if (cvars.Bool("weather")) then return end
+
 		self:StartWeather( weather );
 
 		hook.Call( "AtmosWeatherStart", GAMEMODE || nil, tostring( self:GetWeather() ) );
