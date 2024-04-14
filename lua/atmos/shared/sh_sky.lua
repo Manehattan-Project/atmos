@@ -471,6 +471,8 @@ function SkyClass:RenderMoon()
 
 	if ( !IsValid( g_AtmosManager ) ) then return end
 
+	if ( !self.Time ) then return end
+
 	local night = ((self.Time < 4 or self.Time > 20) and true or false);
 
 	if ( night ) then
