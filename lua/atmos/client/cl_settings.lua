@@ -55,16 +55,10 @@ local function LogoPanel()
 
 end
 
-local function InfoPanel( CPanel )
-
-	CPanel:AddPanel( LogoPanel() );
-	CPanel:AddControl( "label", { text = string.format( "Version %s", tostring( ATMOS_VERSION ) ) } );
-
-end
-
 local function ServerPanel( CPanel )
 
 	CPanel:AddPanel( LogoPanel() );
+	CPanel:AddControl( "label", { text = string.format( "Version %s", tostring( ATMOS_VERSION ) ) } );
 
 
 
@@ -79,7 +73,6 @@ end
 -- Hooks
 hook.Add( "PopulateToolMenu", "PopulateAtmosMenus", function()
 
-	spawnmenu.AddToolMenuOption( "Options", "Atmos", "AtmosInfo", "Atmos Info", "", "", InfoPanel );
 	spawnmenu.AddToolMenuOption( "Options", "Atmos", "AtmosServer", "Server Settings", "", "", ServerPanel );
 	spawnmenu.AddToolMenuOption( "Options", "Atmos", "AtmosClient", "Client Settings", "", "", ClientPanel );
 
